@@ -12,7 +12,6 @@ func main() {
 	router := routes.UserRouter()
 	handler := middleware.CorsMiddleware(router)
 	
-	// Initialize Redis
 	db.InitRedis()
 	
 	if err := db.ConnectToMongo("mongodb+srv://mango26june:mango123@cluster0.ga9pq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"); err != nil {
