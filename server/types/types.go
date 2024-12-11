@@ -11,3 +11,8 @@ type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
+
+type Stock struct {
+	Symbol string  `json:"symbol"`
+	Price  float64 `json:"price"`
+}
