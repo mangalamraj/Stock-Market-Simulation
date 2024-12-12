@@ -27,7 +27,7 @@ func main() {
 	mainRouter.PathPrefix("/user").Handler(userRouter)
 
 	// Register stock routes
-	stockRouter := routes.StockRouter(db.RedisClient)
+	stockRouter := routes.StockRouter(db.RedisClient, db.MongoDB)
 	mainRouter.PathPrefix("/stock").Handler(stockRouter)
 
 	// Apply CORS middleware

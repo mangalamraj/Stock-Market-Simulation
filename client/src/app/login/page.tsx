@@ -12,7 +12,7 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:8080/login", {
+    const response = await fetch("http://localhost:8080/user/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });

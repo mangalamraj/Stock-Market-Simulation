@@ -1,68 +1,62 @@
 "use client";
 
+import BuyStockForm from "@/components/buyStockForm/buyStockForm";
 import StockGraph from "@/components/stockGraph/stockgraph";
 import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const Buystocks = () => {
-  const [stock, setStock] = useState("AAPL");
+const STOCKS = [
+  { value: "AAPL", label: "Apple Inc." },
+  { value: "GOOG", label: "Google" },
+  { value: "AMZN", label: "Amazon" },
+  { value: "TSLA", label: "Tesla" },
+];
 
-  const handleStockChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStock(e.target.value);
+export default function BuyStocks() {
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [selectedStock, setSelectedStock] = useState("AAPL");
+
+  const handlePurchase = () => {
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   return (
-    <div className="bg-black text-white pt-10">
-      <div className="flex items-center justify-center gap-4 pb-4">
-        <div className="flex gap-2 items-center justify-center">
-          <input
-            type="radio"
-            id="AAPL"
-            name="stock"
-            value="AAPL"
-            checked={stock === "AAPL"}
-            onChange={handleStockChange}
-          />
-          <label htmlFor="AAPL">AAPL</label>
+    <div className="bg-black min-h-screen p-4">
+      <div className="container mx-auto">
+        <div className="mb-10 flex gap-4 items-center justify-center align-middle">
+          <h2 className="text-white text-2xl">Select Stock</h2>
+          <Select value={selectedStock} onValueChange={setSelectedStock}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="Select a stock" />
+            </SelectTrigger>
+            <SelectContent>
+              {STOCKS.map((stock) => (
+                <SelectItem key={stock.value} value={stock.value}>
+                  {stock.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-        <div className="flex gap-2 items-center justify-center">
-          <input
-            type="radio"
-            id="GOOGL"
-            name="stock"
-            value="GOOG"
-            checked={stock === "GOOG"}
-            onChange={handleStockChange}
-          />
 
-          <label htmlFor="GOOG">GOOG</label>
-        </div>
-        <div className="flex gap-2 items-center justify-center">
-          <input
-            type="radio"
-            id="AMZN"
-            name="stock"
-            value="AMZN"
-            checked={stock === "AMZN"}
-            onChange={handleStockChange}
+        <div className="grid gap-8">
+          <StockGraph
+            stock={selectedStock}
+            key={`${selectedStock}-${refreshTrigger}`}
+            shouldRefresh={true}
           />
-          <label htmlFor="AMZN">AMZN</label>
-        </div>
-        <div className="flex gap-2 items-center justify-center">
-          <input
-            type="radio"
-            id="AMZN"
-            name="stock"
-            value="TSLA"
-            checked={stock === "TSLA"}
-            onChange={handleStockChange}
+          <BuyStockForm
+            onPurchase={handlePurchase}
+            selectedStock={selectedStock}
           />
-          <label htmlFor="TSLA">TSLA</label>
         </div>
       </div>
-
-      <StockGraph stock={stock} />
     </div>
   );
-};
-
-export default Buystocks;
+}

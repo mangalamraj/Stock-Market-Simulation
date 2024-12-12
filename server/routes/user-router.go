@@ -8,8 +8,8 @@ import (
 
 func UserRouter() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc("/signup", controller.Signup).Methods("POST")
-	router.HandleFunc("/login", controller.Login).Methods("POST")
+	router.HandleFunc("/user/signup", controller.Signup).Methods("POST")
+	router.HandleFunc("/user/login", controller.Login).Methods("POST")
 
 	return router
 }
