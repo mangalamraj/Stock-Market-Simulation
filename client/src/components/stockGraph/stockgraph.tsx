@@ -12,7 +12,6 @@ import {
   Legend,
 } from "chart.js";
 
-// Register ChartJS components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -83,9 +82,8 @@ function StockGraph({
   useEffect(() => {
     fetchData();
 
-    // If shouldRefresh is true, set up an interval to refresh data
     if (shouldRefresh) {
-      const interval = setInterval(fetchData, 5000); // Refresh every 5 seconds
+      const interval = setInterval(fetchData, 5000);
       return () => clearInterval(interval);
     }
   }, [stock, shouldRefresh, fetchData]);

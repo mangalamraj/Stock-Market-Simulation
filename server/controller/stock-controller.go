@@ -45,7 +45,7 @@ func GetStockHistoryHandler(rdb *redis.Client) http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(history) // Automatically writes 200 OK
+		json.NewEncoder(w).Encode(history)
 	}
 }
 
@@ -69,7 +69,6 @@ func BuyStockHandler(rdb *redis.Client, db *mongo.Database) http.HandlerFunc {
 			return
 		}
 
-		// Calculate total cost
 		totalCost := price * float64(buyRequest.Quantity)
 
 		// Get user from MongoDB
@@ -82,7 +81,6 @@ func BuyStockHandler(rdb *redis.Client, db *mongo.Database) http.HandlerFunc {
 			return
 		}
 
-		// Check if user has enough balance
 		if user.Balance < totalCost {
 			http.Error(w, "Insufficient balance", http.StatusBadRequest)
 			return
@@ -96,7 +94,6 @@ func BuyStockHandler(rdb *redis.Client, db *mongo.Database) http.HandlerFunc {
 			Quantity: buyRequest.Quantity,
 			BuyPrice: price,
 		}
-		// Update user's balance and portfolio
 		update := bson.M{
 			"$inc": bson.M{"balance": -totalCost},
 			"$set": bson.M{
@@ -133,7 +130,6 @@ func BuyStockHandler(rdb *redis.Client, db *mongo.Database) http.HandlerFunc {
 		}).Err()
 		if err != nil {
 			log.Printf("Failed to update stock history: %v\n", err)
-			// Don't return error since the purchase was successful
 		}
 
 		w.Header().Set("Content-Type", "application/json")

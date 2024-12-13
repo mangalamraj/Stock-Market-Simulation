@@ -10,8 +10,6 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// Stock represents a stock price update
-
 func StartConsumer(brokers, groupID, topic string, rdb *redis.Client) {
 	consumer, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers":     brokers,
@@ -43,15 +41,12 @@ func StartConsumer(brokers, groupID, topic string, rdb *redis.Client) {
 			continue
 		}
 
-		// Cache stock price in Redis
-		// Cache stock price in Redis (for the latest price)
 		err = rdb.Set(context.Background(), stock.Symbol, stock.Price, 0).Err()
 		if err != nil {
 			fmt.Printf("Error caching stock price: %v\n", err)
 			continue
 		}
 
-		// Store historical stock price in Redis sorted set
 		timestamp := float64(msg.Timestamp.Unix()) // Get timestamp from Kafka message
 		err = rdb.ZAdd(context.Background(), stock.Symbol+":history", redis.Z{
 			Score:  timestamp,
