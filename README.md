@@ -7,8 +7,14 @@
 - [X] Make the buy stock form
 - [X] Make the the form store the data in the database
 - [ ] Make dashboard page
-- [X] Do the producer and consumer for the trading page
+- [X] Do the kafka producer and consumer for the trading page
+- [X] Effect the graph using redis data stored by the consumer.
 
 # v0.2
 - [ ] Make the leaderboard page
-- [ ] Effect the graph after buying stocks
+- [X] Effect the graph after buying stocks
+- [ ] Make the ui better.
+- [ ] Make the auth better.
+
+# v0.3
+- [ ] Change it to websokets and make the graph update in real time.

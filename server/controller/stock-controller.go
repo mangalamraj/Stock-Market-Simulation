@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"stock-market-simulation/kafka"
 	"stock-market-simulation/models"
 	"strconv"
 	"time"
@@ -87,13 +88,14 @@ func BuyStockHandler(rdb *redis.Client, db *mongo.Database) http.HandlerFunc {
 			return
 		}
 
+		kafka.BuyProducer("localhost:9092", "stock-prices", buyRequest.Stock, totalCost)
+
 		// Create a stock purchase entry
 		stockPurchase := models.StockPurchase{
 			Stock:    buyRequest.Stock,
 			Quantity: buyRequest.Quantity,
 			BuyPrice: price,
 		}
-
 		// Update user's balance and portfolio
 		update := bson.M{
 			"$inc": bson.M{"balance": -totalCost},
