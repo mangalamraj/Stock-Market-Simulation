@@ -10,6 +10,7 @@
 - [X] Do the kafka producer and consumer for the trading page
 - [X] Effect the graph using redis data stored by the consumer.
 
+
 # v0.2
 - [ ] Make the leaderboard page
 - [X] Effect the graph after buying stocks
